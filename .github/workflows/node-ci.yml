@@ -30,13 +30,32 @@ jobs:
         cache: 'npm'
     - run: rm -rf node_modules
     - run: npm install --legacy-peer-deps
-    - run: |
-      git config --global user.name 'hooktosky'
-      git config --global user.email 'hande.akin123@gmail.com'
-      git remote set-url origin git@github.com:HookToSky/hooktosky.github.io.git
-      npm run deploy
-  env:
-    user_name: 'hooktosky'
-    user_email: 'hande.akin123@gmail.com'
-    github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-    repository: 'hooktosky.github.io.git'
+    - run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - name: deploy to gh-pages
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./build          
+      - run: npm run deploy
+
+  
+  # deploy:
+  #  - name: Deploy
+  #   run: |
+  #   git config --global user.name $user_name
+  #   git config --global user.email $user_email
+  #   git remote set-url origin https://${github_token}@github.com/${repository}
+  #   npm run deploy
+  # env:
+  #   user_name: 'github-actions[bot]'
+  #   user_email: 'github-actions[bot]@users.noreply.github.com'
+  #   github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+  #   repository: ${{ github.repository }}
