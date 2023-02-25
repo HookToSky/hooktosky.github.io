@@ -75,8 +75,6 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
@@ -101,7 +99,6 @@
   },
   "devDependencies": {
     "chokidar": "^3.5.1",
-    "gh-pages": "^5.0.0",
     "react-reveal": "1.1"
   },
   "jest": {
